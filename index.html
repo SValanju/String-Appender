@@ -82,6 +82,9 @@
         </form>
 
         <div class="my-5">
+            <div class="mb-2 d-flex justify-content-end d-none" id="copyBtn">
+                <button class="btn btn-light" onclick="copyText()">Copy Output<i class="bi bi-clipboard2-plus-fill ms-2"></i></button>
+            </div>
             <div class="form-floating">
                 <textarea class="form-control" placeholder="Sample Output." id="output"></textarea>
                 <label for="output">Output :</label>
@@ -133,8 +136,23 @@
                 output += rowOutput.trim() + '\n';
             }
             
-            $("#output").val(output);
+            if(output !== ""){
+                $("#output").val(output);
+                $("#copyBtn").removeClass("d-none");
+            }
             autosize($("#output"));
+        }
+        
+        async function copyText() {
+            try {
+                let copyText = $("#output");
+                copyText.select();
+                await navigator.clipboard.writeText(copyText.val());
+                console.log('Content copied to clipboard');
+            }
+            catch (err) {
+                alert("Failed to copy: \n", err);
+            }
         }
     </script>
 </body>
