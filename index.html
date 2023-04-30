@@ -69,11 +69,8 @@
             </div>
             <div class="col-md-3 mb-3">
                 <div class="form-floating">
-                    <input type="number" class="form-control" id="inputColumns" placeholder="Enter columns" min="1" value="3" required>
+                    <input type="number" class="form-control" id="inputColumns" placeholder="Enter columns" min="1">
                     <label for="inputColumns">Enter Columns :</label>
-                    <div class="invalid-feedback text-white">
-                        Enter number of columns to display the message.
-                    </div>
                 </div>
             </div>
             <div class="col-md-12 d-flex justify-content-end">
@@ -86,7 +83,7 @@
                 <button class="btn btn-light" onclick="copyText()">Copy Output<i class="bi bi-clipboard2-plus-fill ms-2"></i></button>
             </div>
             <div class="form-floating">
-                <textarea class="form-control" placeholder="Sample Output." id="output"></textarea>
+                <textarea class="form-control" placeholder="Sample Output." id="output" readonly></textarea>
                 <label for="output">Output :</label>
             </div>
         </div>
@@ -117,23 +114,26 @@
             let count = $("#inputCount").val();
             let columns = $("#inputColumns").val();
 
-            let message = $.map(new Array(count), function(val, i){
-                return text;
-            });
-
             let rows = Math.ceil(count / columns);
             
             let output = "";
 
-            for (let i = 0; i < rows; i++) {
-                let rowOutput = "";
-                for (let j = 0; j < columns; j++) {
-                    let index = i * columns + j;
-                    if (index < count) {
-                        rowOutput += message + ' ';
+            if(columns > 0){
+                for (let i = 0; i < rows; i++) {
+                    let rowOutput = "";
+                    for (let j = 0; j < columns; j++) {
+                        let index = i * columns + j;
+                        if (index < count) {
+                            rowOutput += text + ' ';
+                        }
                     }
+                    output += rowOutput.trim() + '\n';
                 }
-                output += rowOutput.trim() + '\n';
+            }
+            else{
+                for(let i = 0; i <= count; i++){
+                    output += text + " ";
+                }
             }
             
             if(output !== ""){
